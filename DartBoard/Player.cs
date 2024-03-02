@@ -2,12 +2,17 @@ namespace DartBoard;
 
 public class Player
 {
-    private string Name;
-    public int Score;
+    public string Name;
+    public List<Throw> Throws;
+
+    public int Score
+    {
+        get{ return Throws.Sum(x => x.Score);}
+    }
 
     public Player(string name)
     {
         Name = name;
-        Score = 0;
+        Throws = new List<Throw>();
     }
 }
