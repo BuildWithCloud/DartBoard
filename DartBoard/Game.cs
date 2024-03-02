@@ -7,19 +7,9 @@ public abstract class Game
     private bool _finished = false;
     protected int DisplayWidth;
 
-
-    public void DefinePlayers()
-    {
-        for (int i = 0; i < Players.Length; i++)
-        {
-            Console.Write("Please enter the name of player" + i.ToString());
-            string name = Console.ReadLine() ?? "";
-            Players[i] = new Player(name);
-        }
-    }
-
     public void Play()
     {
+        DefinePlayers();
         while (!_finished)
         {
             Display();
@@ -34,8 +24,18 @@ public abstract class Game
                 }
             }
         }
+        DisplayWinner();
     }
-
+    public void DefinePlayers()
+    {
+        for (int i = 0; i < Players.Length; i++)
+        {
+            Console.Write("Please enter the name of player" + i.ToString());
+            string name = Console.ReadLine() ?? "";
+            Players[i] = new Player(name);
+        }
+    }
+    
     protected abstract bool GameFinished();
     protected abstract void Display();
     protected abstract void EnterScore();
