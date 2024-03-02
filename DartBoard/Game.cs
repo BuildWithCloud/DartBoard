@@ -4,10 +4,10 @@ public abstract class Game
 {
     protected Player[] Players;
     protected int CurrentPlayer = 0;
-    private bool _finished = false;
+    protected bool _finished = false;
     protected int DisplayWidth;
 
-    public void Play()
+    public virtual void Play()
     {
         DefinePlayers();
         while (true)
