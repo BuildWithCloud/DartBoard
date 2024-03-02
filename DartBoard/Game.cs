@@ -23,7 +23,7 @@ public abstract class Game
         while (!_finished)
         {
             Display();
-            EnterInfo();
+            EnterScore();
             _finished = GameFinished();
             if (!_finished)
             {
@@ -38,7 +38,7 @@ public abstract class Game
 
     protected abstract bool GameFinished();
     protected abstract void Display();
-    protected abstract void EnterInfo();
+    protected abstract void EnterScore();
     protected abstract void DisplayWinner();
 
 
