@@ -6,9 +6,13 @@ public abstract class Game
     private int MinPlayers;
     private Player[] Players;
     private int CurrentPlayer;
-    
+    private bool Finished;
     
 
+    public Game()
+    {
+        Finished = false;
+    }
     public void DefinePlayers()
     {
         for (int i = 0; i < Players.Length; i++)
@@ -21,10 +25,11 @@ public abstract class Game
 
     public void Play()
     {
-        while (!GameFinished())
+        while (!Finished)
         {
             Display();
             EnterInfo();
+            Finished = GameFinished();
         }
     }
     public abstract bool GameFinished();
