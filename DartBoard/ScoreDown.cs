@@ -42,7 +42,7 @@ public class ScoreDown : Game
         }
         else
         {
-            throw NotImplementedException();
+            throw new NotImplementedException();
         }
     }
     protected override void EnterScore()
@@ -92,7 +92,7 @@ public class ScoreDown : Game
         }
         else
         {
-            throw NotImplementedException();
+            throw new NotImplementedException();
         }
 
         Players[CurrentPlayer].Throws.Add(t);        
