@@ -10,11 +10,17 @@ public abstract class Game
     public void Play()
     {
         DefinePlayers();
-        while (!_finished)
+        while (true)
         {
             Display();
             EnterScore();
-            _finished = GameFinished();
+            if (GameFinished() != null)
+            {
+                _finished = true;
+                DisplayWinner(Players[CurrentPlayer]);
+                break;
+            }
+            
             if (!_finished)
             {
                 CurrentPlayer++;
@@ -24,7 +30,7 @@ public abstract class Game
                 }
             }
         }
-        DisplayWinner();
+        
     }
     public void DefinePlayers()
     {
@@ -35,11 +41,11 @@ public abstract class Game
             Players[i] = new Player(name);
         }
     }
-    
-    protected abstract bool GameFinished();
+
+    protected abstract Player? GameFinished();
     protected abstract void Display();
     protected abstract void EnterScore();
-    protected abstract void DisplayWinner();
+    protected abstract void DisplayWinner(Player winner);
 
 
 }

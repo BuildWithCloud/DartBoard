@@ -10,20 +10,20 @@ public class ScoreDown : Game
         DisplayWidth = displayWidth;
     }
 
-    protected override bool GameFinished()
+    protected override Player GameFinished()
     {
         for(int i = 0; i < Players.Length; i++)
         {
-            if(Players[i].Score <= DownFrom)
+            if(Players[i].Score >= DownFrom)
             {
                 if(Players[i].Throws[^1].Multiplier == 2)
                 {
-                    return true;
+                    return Players[i];
                 }
             }
         }
 
-        return false;
+        return null;
     }
     protected override void Display()
     {
@@ -32,12 +32,12 @@ public class ScoreDown : Game
             Console.Clear();
             int numofSpaces = DisplayWidth - Players[0].Score.ToString().Length + Players[1].Score.ToString().Length;
             string output = "";
-            output += Players[0].Score.ToString();
+            output += (DownFrom - Players[0].Score).ToString();
             for (int i = 0; i < numofSpaces; i++)
             {
                 output += " ";
             }
-            output += Players[1].Score.ToString();
+            output += (DownFrom - Players[1].Score).ToString();
             Console.WriteLine(output);
         }
         else
@@ -97,16 +97,10 @@ public class ScoreDown : Game
 
         Players[CurrentPlayer].Throws.Add(t);        
     }
-    protected override void DisplayWinner()
+    protected override void DisplayWinner(Player winner)
     {
-        if (Players[0].Score <= DownFrom)
-        {
-            Console.WriteLine(Players[0].Name + " wins!");
-        }
-        else
-        {
-            Console.WriteLine(Players[1].Name + " wins!");
-        }
+        Console.WriteLine(winner.Name + " wins!");
+        
     }
     
 }
