@@ -20,6 +20,8 @@ public class ScoreDown : Game
                 {
                     return Players[i];
                 }
+
+                Players[i].Throws.RemoveAt(Players[i].Throws.Count - 1);
             }
         }
 
