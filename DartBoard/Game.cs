@@ -36,7 +36,7 @@ public abstract class Game
     {
         for (int i = 0; i < Players.Length; i++)
         {
-            Console.Write("Please enter the name of player" + i.ToString());
+            Console.Write("Please enter the name of player " + i.ToString() + ": ");
             string name = Console.ReadLine() ?? "";
             Players[i] = new Player(name);
         }
