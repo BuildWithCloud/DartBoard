@@ -4,6 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        ScoreDown Testgame = new ScoreDown(2, 100, 400);
+        Testgame.Play();
     }
 }
