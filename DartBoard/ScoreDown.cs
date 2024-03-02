@@ -25,7 +25,6 @@ public class ScoreDown : Game
 
         return false;
     }
-
     protected override void Display()
     {
         if (Players.Length == 2)
@@ -46,4 +45,68 @@ public class ScoreDown : Game
             throw NotImplementedException();
         }
     }
+    protected override void EnterScore()
+    {
+        Throw t;
+        if (CurrentPlayer == 0)
+        {
+            Console.WriteLine("Enter number:");
+            int? scoreInt = null;
+            while (scoreInt == null)
+            {
+                string score = Console.ReadLine() ?? " ";
+                scoreInt = int.TryParse(score, out int result) ? result : null;
+            }
+            
+            Console.WriteLine("Enter multiplier:");
+            int? multiplierInt = null;
+            while (multiplierInt == null)
+            {
+                string multiplier = Console.ReadLine() ?? " ";
+                multiplierInt = int.TryParse(multiplier, out int result) ? result : null;
+            }
+
+            t = new Throw(multiplierInt.Value, scoreInt.Value);
+        }
+        else if (CurrentPlayer == 1)
+        {
+            Console.WriteLine(new string(' ', DisplayWidth - 13) + "Enter number:");
+            int? scoreInt = null;
+            while (scoreInt == null)
+            {
+                Console.Write(new string(' ', DisplayWidth - 2));
+                string score = Console.ReadLine() ?? " ";
+                scoreInt = int.TryParse(score, out int result) ? result : null;
+            }
+            
+            Console.WriteLine(new string(' ', DisplayWidth - 16) + "Enter multiplier:");
+            int? multiplierInt = null;
+            while (multiplierInt == null)
+            {
+                Console.Write(new string(' ', DisplayWidth - 2));
+                string multiplier = Console.ReadLine() ?? " ";
+                multiplierInt = int.TryParse(multiplier, out int result) ? result : null;
+            }
+
+            t = new Throw(multiplierInt.Value, scoreInt.Value);
+        }
+        else
+        {
+            throw NotImplementedException();
+        }
+
+        Players[CurrentPlayer].Throws.Add(t);        
+    }
+    protected override void DisplayWinner()
+    {
+        if (Players[0].Score <= DownFrom)
+        {
+            Console.WriteLine(Players[0].Name + " wins!");
+        }
+        else
+        {
+            Console.WriteLine(Players[1].Name + " wins!");
+        }
+    }
+    
 }
