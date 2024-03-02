@@ -32,15 +32,30 @@ public class ScoreDown : Game
         if (Players.Length == 2)
         {
             Console.Clear();
-            int numofSpaces = DisplayWidth - Players[0].Score.ToString().Length + Players[1].Score.ToString().Length;
-            string output = "";
-            output += (DownFrom - Players[0].Score).ToString();
-            for (int i = 0; i < numofSpaces; i++)
             {
-                output += " ";
+                int numOfSpaces = DisplayWidth - Players[0].Name.Length +
+                                  Players[1].Name.Length;
+                string output = "";
+                output += Players[0].Name;
+                output += new String (' ', numOfSpaces);
+                
+
+                output += Players[1].Name;
+                Console.WriteLine(output);
             }
-            output += (DownFrom - Players[1].Score).ToString();
-            Console.WriteLine(output);
+            
+            {
+                int numOfSpaces = DisplayWidth - (DownFrom - Players[0].Score).ToString().Length +
+                                  (DownFrom - Players[1].Score).ToString().Length;
+                string output = "";
+                output += (DownFrom - Players[0].Score).ToString();
+                output += new String (' ', numOfSpaces);
+
+                output += (DownFrom - Players[1].Score).ToString();
+                Console.WriteLine(output);
+            }
+
+            
         }
         else
         {
