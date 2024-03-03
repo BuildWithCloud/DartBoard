@@ -12,35 +12,6 @@ public class ScoreDown : Game
         DisplayWidth = displayWidth;
     }
     
-    public override void Play()
-    {
-        DefinePlayers();
-        while (true)
-        {
-            Display();
-            for (int i = 0; i < 3; i++)
-            {
-                EnterScore();
-                if (GameFinished() != null)
-                {
-                    _finished = true;
-                    DisplayWinner(Players[CurrentPlayer]);
-                    break;
-                }
-            }
-            
-            
-            if (!_finished)
-            {
-                CurrentPlayer++;
-                if (CurrentPlayer == Players.Length)
-                {
-                    CurrentPlayer = 0;
-                }
-            }
-        }
-        
-    }
 
     protected override Player GameFinished()
     {
