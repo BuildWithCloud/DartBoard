@@ -2,10 +2,12 @@ namespace DartBoard;
 
 public class ScoreDown : Game
 {
-    int DownFrom;
+    private readonly int _downFrom;
+    private const int ThrowsPerTurn = 3;
+
     public ScoreDown(int numOfPlayers, int downFrom, int displayWidth)
     {
-        DownFrom = downFrom;
+        _downFrom = downFrom;
         Players = new Player[numOfPlayers];
         DisplayWidth = displayWidth;
     }
@@ -44,17 +46,14 @@ public class ScoreDown : Game
     {
         for(int i = 0; i < Players.Length; i++)
         {
-            if(Players[i].Score >= DownFrom)
+            if(Players[i].Score >= _downFrom)
             {
-                if(Players[i].Throws[^1].Multiplier == 2)
+                if(Players[i].Turns[^1].Throws[^1].Multiplier == 2)
                 {
                     return Players[i];
                 }
-
-                for (int j = 0; j < 3; j++)
-                {
-                    Players[i].Throws.RemoveAt(Players[i].Throws.Count - 1);
-                }
+                
+                Players[i].Turns.RemoveAt(Players[i].Turns.Count - 1);
             }
         }
 
@@ -78,13 +77,13 @@ public class ScoreDown : Game
             }
             
             {
-                int numOfSpaces = DisplayWidth - (DownFrom - Players[0].Score).ToString().Length +
-                                  (DownFrom - Players[1].Score).ToString().Length;
+                int numOfSpaces = DisplayWidth - (_downFrom - Players[0].Score).ToString().Length +
+                                  (_downFrom - Players[1].Score).ToString().Length;
                 string output = "";
-                output += (DownFrom - Players[0].Score).ToString();
+                output += (_downFrom - Players[0].Score).ToString();
                 output += new String (' ', numOfSpaces);
 
-                output += (DownFrom - Players[1].Score).ToString();
+                output += (_downFrom - Players[1].Score).ToString();
                 Console.WriteLine(output);
             }
 
@@ -98,55 +97,60 @@ public class ScoreDown : Game
     protected override void EnterScore()
     {
         
-        Throw t;
-        if (CurrentPlayer == 0)
+        Throw[] throws = new Throw[ThrowsPerTurn];
+        
+        for(int i = 0; i < ThrowsPerTurn; i++)
         {
-            Console.WriteLine("Enter number:");
-            int? scoreInt = null;
-            while (scoreInt == null)
+            if (CurrentPlayer == 0)
             {
-                string score = Console.ReadLine() ?? " ";
-                scoreInt = int.TryParse(score, out int result) ? result : null;
+                Console.WriteLine("Enter number:");
+                int? scoreInt = null;
+                while (scoreInt == null)
+                {
+                    string score = Console.ReadLine() ?? " ";
+                    scoreInt = int.TryParse(score, out int result) ? result : null;
+                }
+            
+                Console.WriteLine("Enter multiplier:");
+                int? multiplierInt = null;
+                while (multiplierInt == null)
+                {
+                    string multiplier = Console.ReadLine() ?? " ";
+                    multiplierInt = int.TryParse(multiplier, out int result) ? result : null;
+                }
+            
+                throws[i] = new Throw(multiplierInt.Value, scoreInt.Value);
             }
-
-            Console.WriteLine("Enter multiplier:");
-            int? multiplierInt = null;
-            while (multiplierInt == null)
+            else if (CurrentPlayer == 1)
             {
-                string multiplier = Console.ReadLine() ?? " ";
-                multiplierInt = int.TryParse(multiplier, out int result) ? result : null;
+                Console.WriteLine(new string(' ', DisplayWidth - 13) + "Enter number:");
+                int? scoreInt = null;
+                while (scoreInt == null)
+                {
+                    Console.Write(new string(' ', DisplayWidth - 2));
+                    string score = Console.ReadLine() ?? " ";
+                    scoreInt = int.TryParse(score, out int result) ? result : null;
+                }
+            
+                Console.WriteLine(new string(' ', DisplayWidth - 16) + "Enter multiplier:");
+                int? multiplierInt = null;
+                while (multiplierInt == null)
+                {
+                    Console.Write(new string(' ', DisplayWidth - 2));
+                    string multiplier = Console.ReadLine() ?? " ";
+                    multiplierInt = int.TryParse(multiplier, out int result) ? result : null;
+                }
+            
+                throws[i] = new Throw(multiplierInt.Value, scoreInt.Value);
             }
-
-            t = new Throw(multiplierInt.Value, scoreInt.Value);
+            else
+            {
+                throw new NotImplementedException();
+            }
+            
         }
-        else if (CurrentPlayer == 1)
-        {
-            Console.WriteLine(new string(' ', DisplayWidth - 13) + "Enter number:");
-            int? scoreInt = null;
-            while (scoreInt == null)
-            {
-                Console.Write(new string(' ', DisplayWidth - 2));
-                string score = Console.ReadLine() ?? " ";
-                scoreInt = int.TryParse(score, out int result) ? result : null;
-            }
-
-            Console.WriteLine(new string(' ', DisplayWidth - 16) + "Enter multiplier:");
-            int? multiplierInt = null;
-            while (multiplierInt == null)
-            {
-                Console.Write(new string(' ', DisplayWidth - 2));
-                string multiplier = Console.ReadLine() ?? " ";
-                multiplierInt = int.TryParse(multiplier, out int result) ? result : null;
-            }
-
-            t = new Throw(multiplierInt.Value, scoreInt.Value);
-        }
-        else
-        {
-            throw new NotImplementedException();
-        }
-
-        Players[CurrentPlayer].Throws.Add(t);
+        
+        Players[CurrentPlayer].Turns.Add(new Turn(throws));
             
     }
     protected override void DisplayWinner(Player winner)
