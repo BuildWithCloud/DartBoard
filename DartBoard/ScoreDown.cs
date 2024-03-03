@@ -67,7 +67,6 @@ public class ScoreDown : Game
     }
     protected override void EnterScore()
     {
-        
         Throw[] throws = new Throw[ThrowsPerTurn];
         
         for(int i = 0; i < ThrowsPerTurn; i++)
@@ -119,6 +118,26 @@ public class ScoreDown : Game
                 throw new NotImplementedException();
             }
             
+            Throw[] throwsSoFar = throws.Take(i+1).ToArray();
+            //check if the player has won
+            if (Players[CurrentPlayer].Score + throwsSoFar.Sum(t => t.Score) == _downFrom)
+            {
+                if (throws[i].Multiplier == 2)
+                {
+                    Players[CurrentPlayer].Turns.Add(new Turn(throwsSoFar));
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("You must finish on a double");
+                    return;
+                }
+            }
+            else if (Players[CurrentPlayer].Score + throws[i].Score > _downFrom)
+            {
+                Console.WriteLine("You have gone over the target");
+                return;
+            }
         }
         
         Players[CurrentPlayer].Turns.Add(new Turn(throws));
