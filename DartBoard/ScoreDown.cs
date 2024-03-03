@@ -138,6 +138,8 @@ public class ScoreDown : Game
                 Console.WriteLine("You have gone over the target");
                 return;
             }
+
+            Display();
         }
         
         Players[CurrentPlayer].Turns.Add(new Turn(throws));
