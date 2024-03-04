@@ -2,14 +2,12 @@ namespace DartBoard;
 
 public class ScoreDown : Game
 {
-    private readonly int _downFrom;
+    private int _downFrom;
     private const int ThrowsPerTurn = 3;
 
-    public ScoreDown(int numOfPlayers, int downFrom, int displayWidth)
+    public ScoreDown(int numOfPlayers)
     {
-        _downFrom = downFrom;
         Players = new Player[numOfPlayers];
-        DisplayWidth = displayWidth;
     }
     
 
@@ -167,5 +165,23 @@ public class ScoreDown : Game
         Console.WriteLine(winner.Name + " wins!");
         
     }
-    
+    protected override void DefineOptions()
+    {
+        Console.Write("Please enter the display width: ");
+        int? displayWidth = null;
+        while (displayWidth == null)
+        {
+            displayWidth = int.TryParse(Console.ReadLine() ?? " ", out int result) ? result : null;
+        }
+        DisplayWidth = (int)displayWidth;
+        
+        Console.Write("Please enter the score to play down from: ");
+        int? downFrom = null;
+        while (downFrom == null)
+        {
+            downFrom = int.TryParse(Console.ReadLine() ?? " ", out int result) ? result : null;
+        }
+
+        _downFrom = (int)downFrom;
+    }
 }

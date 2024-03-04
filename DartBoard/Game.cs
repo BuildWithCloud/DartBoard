@@ -9,6 +9,7 @@ public abstract class Game
 
     public virtual void Play()
     {
+        DefineOptions();
         DefinePlayers();
         while (true)
         {
@@ -42,6 +43,7 @@ public abstract class Game
         }
     }
 
+    protected abstract void DefineOptions();
     protected abstract Player? GameFinished();
     protected abstract void Display();
     protected abstract void EnterScore();
