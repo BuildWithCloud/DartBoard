@@ -133,6 +133,11 @@ public class ScoreDown : Game
                     return;
                 }
             }
+            else if (Players[CurrentPlayer].Score + throws[i].Score == 1)
+            {
+                Console.WriteLine("You cannot have 1");
+                return;
+            }
             else if (Players[CurrentPlayer].Score + throws[i].Score > _downFrom)
             {
                 Console.WriteLine("You have gone over the target");
