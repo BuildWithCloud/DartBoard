@@ -71,89 +71,64 @@ public class ScoreDown : Game
         
         for(int i = 0; i < ThrowsPerTurn; i++)
         {
+            string scoreRequest = "";
+            string multiplierRequest = "";
+            string beforeInput = "";
             if (CurrentPlayer == 0)
             {
-                int? scoreInt = null;
-                int? multiplierInt = null;
-
-                Console.WriteLine("Enter number:");
-                while (scoreInt == null)
-                {
-                    string score = Console.ReadLine() ?? " ";
-                    if(score == "m")
-                    {
-                        scoreInt = 0;
-                        multiplierInt = 0;
-                    }
-                    else
-                    {
-                        scoreInt = int.TryParse(score, out int result) ? result : null;
-                        if (scoreInt is > 20 or < 1)
-                        {
-                            scoreInt = null;
-                        } 
-                    }
-                    
-                }
-            
-                Console.WriteLine("Enter multiplier:");
-                
-                while (multiplierInt == null)
-                {
-                    string multiplier = Console.ReadLine() ?? " ";
-                    multiplierInt = int.TryParse(multiplier, out int result) ? result : null;
-                    if (multiplierInt is > 3 or < 1)
-                    {
-                        multiplierInt = null;
-                    }
-                    
-                }
-            
-                throws[i] = new Throw(multiplierInt.Value, scoreInt.Value);
+                scoreRequest = "Enter number:";
+                multiplierRequest = "Enter multiplier:";
             }
-            else if (CurrentPlayer == 1)
+            else if(CurrentPlayer == 1)
             {
-                int? scoreInt = null;
-                int? multiplierInt = null;
-                
-                Console.WriteLine(new string(' ', DisplayWidth - 13) + "Enter number:");
-                while (scoreInt == null)
-                {
-                    Console.Write(new string(' ', DisplayWidth - 2));
-                    string score = Console.ReadLine() ?? " ";
-                    if(score == "m")
-                    {
-                        scoreInt = 0;
-                        multiplierInt = 0;
-                    }
-                    else
-                    {
-                        scoreInt = int.TryParse(score, out int result) ? result : null;
-                        if (scoreInt is > 20 or < 1)
-                        {
-                            scoreInt = null;
-                        } 
-                    }
-                }
-            
-                Console.WriteLine(new string(' ', DisplayWidth - 16) + "Enter multiplier:");
-                while (multiplierInt == null)
-                {
-                    Console.Write(new string(' ', DisplayWidth - 2));
-                    string multiplier = Console.ReadLine() ?? " ";
-                    multiplierInt = int.TryParse(multiplier, out int result) ? result : null;
-                    if (multiplierInt is > 3 or < 1)
-                    {
-                        multiplierInt = null;
-                    }
-                }
-            
-                throws[i] = new Throw(multiplierInt.Value, scoreInt.Value);
+                scoreRequest = new string(' ', DisplayWidth - 13) + "Enter number:";
+                multiplierRequest = new string(' ', DisplayWidth - 16) + "Enter multiplier:";
+                beforeInput = new string(' ', DisplayWidth - 2);
             }
             else
             {
                 throw new NotImplementedException();
             }
+            
+            
+            int? scoreInt = null;
+            int? multiplierInt = null;
+            
+            Console.WriteLine(scoreRequest);
+            while (scoreInt == null)
+            {
+                Console.Write(beforeInput);
+                string score = Console.ReadLine() ?? " ";
+                if(score == "m")
+                {
+                    scoreInt = 0;
+                    multiplierInt = 0;
+                }
+                else
+                {
+                    scoreInt = int.TryParse(score, out int result) ? result : null;
+                    if (scoreInt is > 20 or < 1)
+                    {
+                        scoreInt = null;
+                    } 
+                }
+            }
+        
+            Console.WriteLine(multiplierRequest);
+            while (multiplierInt == null)
+            {
+                Console.Write(beforeInput);
+                string multiplier = Console.ReadLine() ?? " ";
+                multiplierInt = int.TryParse(multiplier, out int result) ? result : null;
+                if (multiplierInt is > 3 or < 1)
+                {
+                    multiplierInt = null;
+                }
+            }
+        
+            throws[i] = new Throw(multiplierInt.Value, scoreInt.Value);
+            
+            
             
             Throw[] throwsSoFar = throws.Take(i+1).ToArray();
             //check if the player has won
