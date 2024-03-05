@@ -4,7 +4,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        ScoreDown Testgame = new ScoreDown(2);
-        Testgame.Play();
+        ScoreDown testgame = new ScoreDown(2);
+        testgame.Play();
     }
 }
