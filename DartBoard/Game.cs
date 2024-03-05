@@ -5,8 +5,8 @@ public abstract class Game
     protected Player[] Players;
     protected int CurrentPlayer = 0;
     protected bool _finished = false;
-    protected int DisplayWidth;
-
+    
+    
     public virtual void Play()
     {
         DefineOptions();
@@ -42,7 +42,6 @@ public abstract class Game
             Players[i] = new Player(name);
         }
     }
-
     protected abstract void DefineOptions();
     protected abstract Player? GameFinished();
     protected abstract void Display();
