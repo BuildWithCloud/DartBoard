@@ -4,13 +4,11 @@ public class ScoreDown : Game
 {
     private int _downFrom;
     private const int ThrowsPerTurn = 3;
-
+    
     public ScoreDown(int numOfPlayers)
     {
         Players = new Player[numOfPlayers];
     }
-    
-
     protected override Player GameFinished()
     {
         for(int i = 0; i < Players.Length; i++)
@@ -33,30 +31,8 @@ public class ScoreDown : Game
         if (Players.Length == 2)
         {
             Console.Clear();
-            {
-                int numOfSpaces = DisplayWidth - Players[0].Name.Length +
-                                  Players[1].Name.Length;
-                string output = "";
-                output += Players[0].Name;
-                output += new String (' ', numOfSpaces);
-                
-
-                output += Players[1].Name;
-                Console.WriteLine(output);
-            }
-            
-            {
-                int numOfSpaces = DisplayWidth - (_downFrom - Players[0].Score).ToString().Length +
-                                  (_downFrom - Players[1].Score).ToString().Length;
-                string output = "";
-                output += (_downFrom - Players[0].Score).ToString();
-                output += new String (' ', numOfSpaces);
-
-                output += (_downFrom - Players[1].Score).ToString();
-                Console.WriteLine(output);
-            }
-
-            
+            Frontend.DisplayLeftAndRight(Players[0].Name, Players[1].Name);
+            Frontend.DisplayLeftAndRight((_downFrom - Players[0].Score).ToString(), (_downFrom - Players[1].Score).ToString());
         }
         else
         {
@@ -69,34 +45,17 @@ public class ScoreDown : Game
         
         for(int i = 0; i < ThrowsPerTurn; i++)
         {
-            string scoreRequest = "";
-            string multiplierRequest = "";
-            string beforeInput = "";
-            if (CurrentPlayer == 0)
-            {
-                scoreRequest = "Enter number:";
-                multiplierRequest = "Enter multiplier:";
-            }
-            else if(CurrentPlayer == 1)
-            {
-                scoreRequest = new string(' ', DisplayWidth - 13) + "Enter number:";
-                multiplierRequest = new string(' ', DisplayWidth - 16) + "Enter multiplier:";
-                beforeInput = new string(' ', DisplayWidth - 2);
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            
+            
             
             
             int? scoreInt = null;
             int? multiplierInt = null;
             
-            Console.WriteLine(scoreRequest);
+            DisplayDependantOnPlayer("Enter number: ", CurrentPlayer);
             while (scoreInt == null)
             {
-                Console.Write(beforeInput);
-                string score = Console.ReadLine() ?? " ";
+                string score = InputDependantOnPlayer(CurrentPlayer, 4) ?? " ";
                 if(score == "m")
                 {
                     scoreInt = 0;
@@ -112,11 +71,11 @@ public class ScoreDown : Game
                 }
             }
         
-            Console.WriteLine(multiplierRequest);
+            DisplayDependantOnPlayer("Enter multiplier: ", CurrentPlayer);
             while (multiplierInt == null)
             {
-                Console.Write(beforeInput);
-                string multiplier = Console.ReadLine() ?? " ";
+                
+                string multiplier = InputDependantOnPlayer(CurrentPlayer, 1) ?? " ";
                 multiplierInt = int.TryParse(multiplier, out int result) ? result : null;
                 if (multiplierInt is > 3 or < 1)
                 {
@@ -162,26 +121,65 @@ public class ScoreDown : Game
     }
     protected override void DisplayWinner(Player winner)
     {
-        Console.WriteLine(winner.Name + " wins!");
+        Frontend.DisplayLeft(winner.Name + " wins!");
         
     }
     protected override void DefineOptions()
     {
-        Console.Write("Please enter the display width: ");
-        int? displayWidth = null;
-        while (displayWidth == null)
-        {
-            displayWidth = int.TryParse(Console.ReadLine() ?? " ", out int result) ? result : null;
-        }
-        DisplayWidth = (int)displayWidth;
         
-        Console.Write("Please enter the score to play down from: ");
+        Frontend.DisplayLeft("Please enter the score to play down from: ");
         int? downFrom = null;
         while (downFrom == null)
         {
-            downFrom = int.TryParse(Console.ReadLine() ?? " ", out int result) ? result : null;
+            downFrom = int.TryParse(Frontend.InputLeft()?? " ", out int result) ? result : null;
         }
 
         _downFrom = (int)downFrom;
+    }
+    protected void DisplayDependantOnPlayer(string message, int player)
+    {
+        if (player == 0)
+        {
+            Frontend.DisplayLeft(message);
+        }
+        else if (player == 1)
+        {
+            Frontend.DisplayRight(message);
+        }
+        else
+        {
+            throw new NotImplementedException();
+        }
+    }
+    protected string? InputDependantOnPlayer(string message, int player, int buffer)
+    {
+        if (player == 0)
+        {
+            return Frontend.InputLeft(message);
+        }
+        else if (player == 1)
+        {
+            return Frontend.InputRight(message, buffer);
+        }
+        else
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    protected string? InputDependantOnPlayer(int player, int buffer)
+    {
+        if (player == 0)
+        {
+            return Frontend.InputLeft();
+        }
+        else if (player == 1)
+        {
+            return Frontend.InputRight(buffer);
+        }
+        else
+        {
+            throw new NotImplementedException();
+        }
     }
 }
