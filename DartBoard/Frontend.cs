@@ -27,10 +27,19 @@ public static class Frontend
         DisplayLeft(message);
         return Console.ReadLine();
     }
-    public static string? InputRight(string message)
+    public static string? InputLeft()
+    {
+        return Console.ReadLine();
+    }
+    public static string? InputRight(string message, int buffer)
     {
         DisplayRight(message);
-        Console.Write(new string(' ', Console.WindowWidth - message.Length));
+        Console.Write(new string(' ', Console.WindowWidth - buffer));
+        return Console.ReadLine();
+    }
+    public static string? InputRight(int buffer)
+    {
+        Console.Write(new string(' ', Console.WindowWidth - buffer));
         return Console.ReadLine();
     }
 }
