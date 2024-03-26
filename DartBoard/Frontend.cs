@@ -31,17 +31,20 @@ public static class Frontend
     {
         return Console.ReadLine();
     }
-    public static string? InputRight(string message)
+    public static string? InputRight()
     {
-        DisplayRight(message);
         string input = "";
         char c = ' ';
-        while (c != '\n')
+        while (c != '\r')
         {
-            c = Console.ReadKey().KeyChar;
-            input += c;
-            Console.SetCursorPosition(0, Console.GetCursorPosition().Top);
-            DisplayRight(input);
+            c = Console.ReadKey(true).KeyChar;
+            if (c != '\r')
+            {
+                input += c;
+                Console.SetCursorPosition(0, Console.GetCursorPosition().Top-1);
+                Console.Write(new string(' ',Console.WindowWidth - input.Length ));
+                Console.Write(input);
+            }
         }
 
         return input;

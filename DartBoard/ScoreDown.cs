@@ -9,18 +9,18 @@ public class ScoreDown : Game
     {
         Players = new Player[numOfPlayers];
     }
-    protected override Player GameFinished()
+    protected override Player? GameFinished()
     {
-        for(int i = 0; i < Players.Length; i++)
+        foreach (var t in Players)
         {
-            if(Players[i].Score >= _downFrom)
+            if(t.Score >= _downFrom)
             {
-                if(Players[i].Turns[^1].Throws[^1].Multiplier == 2)
+                if(t.Turns[^1].Throws[^1].Multiplier == 2)
                 {
-                    return Players[i];
+                    return t;
                 }
                 
-                Players[i].Turns.RemoveAt(Players[i].Turns.Count - 1);
+                t.Turns.RemoveAt(t.Turns.Count - 1);
             }
         }
 
@@ -51,7 +51,7 @@ public class ScoreDown : Game
             DisplayDependantOnPlayer("Enter number: ", CurrentPlayer);
             while (scoreInt == null)
             {
-                var score = InputDependantOnPlayer(CurrentPlayer, 4) ?? " ";
+                var score = InputDependantOnPlayer(CurrentPlayer) ?? " ";
                 if(score == "m")
                 {
                     scoreInt = 0;
@@ -71,7 +71,7 @@ public class ScoreDown : Game
             while (multiplierInt == null)
             {
                 
-                string multiplier = InputDependantOnPlayer(CurrentPlayer, 1) ?? " ";
+                string multiplier = InputDependantOnPlayer(CurrentPlayer) ?? " ";
                 multiplierInt = int.TryParse(multiplier, out int result) ? result : null;
                 if (multiplierInt is > 3 or < 1)
                 {
@@ -132,7 +132,7 @@ public class ScoreDown : Game
 
         _downFrom = (int)downFrom;
     }
-    protected void DisplayDependantOnPlayer(string message, int player)
+    private void DisplayDependantOnPlayer(string message, int player)
     {
         if (player == 0)
         {
@@ -148,7 +148,7 @@ public class ScoreDown : Game
         }
     }
 
-    protected string? InputDependantOnPlayer(int player, int buffer)
+    private string? InputDependantOnPlayer(int player)
     {
         if (player == 0)
         {
@@ -156,7 +156,7 @@ public class ScoreDown : Game
         }
         else if (player == 1)
         {
-            return Frontend.InputRight(buffer);
+            return Frontend.InputRight();
         }
         else
         {
