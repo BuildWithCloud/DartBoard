@@ -31,15 +31,25 @@ public static class Frontend
     {
         return Console.ReadLine();
     }
-    public static string? InputRight(string message, int buffer)
+    public static string? InputRight(string message)
     {
         DisplayRight(message);
-        Console.Write(new string(' ', Console.WindowWidth - buffer));
-        return Console.ReadLine();
+        string input = "";
+        char c = ' ';
+        while (c != '\n')
+        {
+            c = Console.ReadKey().KeyChar;
+            input += c;
+            Console.SetCursorPosition(0, Console.GetCursorPosition().Top);
+            DisplayRight(input);
+        }
+
+        return input;
     }
     public static string? InputRight(int buffer)
     {
         Console.Write(new string(' ', Console.WindowWidth - buffer));
         return Console.ReadLine();
     }
+    
 }

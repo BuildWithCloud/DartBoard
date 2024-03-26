@@ -4,7 +4,7 @@ public abstract class Game
 {
     protected Player[] Players;
     protected int CurrentPlayer = 0;
-    protected bool _finished = false;
+    private bool _finished = false;
     
     
     public virtual void Play()
@@ -21,24 +21,22 @@ public abstract class Game
                 DisplayWinner(Players[CurrentPlayer]);
                 break;
             }
-            
-            if (!_finished)
+
+            if (_finished) continue;
+            CurrentPlayer++;
+            if (CurrentPlayer == Players.Length)
             {
-                CurrentPlayer++;
-                if (CurrentPlayer == Players.Length)
-                {
-                    CurrentPlayer = 0;
-                }
+                CurrentPlayer = 0;
             }
         }
         
     }
-    public void DefinePlayers()
+    private void DefinePlayers()
     {
-        for (int i = 0; i < Players.Length; i++)
+        for (var i = 0; i < Players.Length; i++)
         {
             Console.Write("Please enter the name of player " + i.ToString() + ": ");
-            string name = Console.ReadLine() ?? "";
+            var name = Console.ReadLine() ?? "";
             Players[i] = new Player(name);
         }
     }

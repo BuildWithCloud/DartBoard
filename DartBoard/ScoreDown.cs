@@ -45,17 +45,13 @@ public class ScoreDown : Game
         
         for(int i = 0; i < ThrowsPerTurn; i++)
         {
-            
-            
-            
-            
             int? scoreInt = null;
             int? multiplierInt = null;
             
             DisplayDependantOnPlayer("Enter number: ", CurrentPlayer);
             while (scoreInt == null)
             {
-                string score = InputDependantOnPlayer(CurrentPlayer, 4) ?? " ";
+                var score = InputDependantOnPlayer(CurrentPlayer, 4) ?? " ";
                 if(score == "m")
                 {
                     scoreInt = 0;
@@ -63,8 +59,8 @@ public class ScoreDown : Game
                 }
                 else
                 {
-                    scoreInt = int.TryParse(score, out int result) ? result : null;
-                    if (scoreInt is > 20 or < 1)
+                    scoreInt = int.TryParse(score, out var result) ? result : null;
+                    if (scoreInt is > 25 or < 1)
                     {
                         scoreInt = null;
                     } 
@@ -145,21 +141,6 @@ public class ScoreDown : Game
         else if (player == 1)
         {
             Frontend.DisplayRight(message);
-        }
-        else
-        {
-            throw new NotImplementedException();
-        }
-    }
-    protected string? InputDependantOnPlayer(string message, int player, int buffer)
-    {
-        if (player == 0)
-        {
-            return Frontend.InputLeft(message);
-        }
-        else if (player == 1)
-        {
-            return Frontend.InputRight(message, buffer);
         }
         else
         {
